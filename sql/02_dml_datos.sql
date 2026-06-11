@@ -41,7 +41,7 @@ INSERT INTO LIBRO (isbn, titulo, anio_publicacion, stock_total, stock_disponible
 ('978-950-724-611-2', 'El libro de arena', 1975, 3, 2);
 
 INSERT INTO LIBRO_AUTOR (isbn, id_autor) VALUES
-('978-0-553-29335-7', 1), ('978-0-679-72020-1', 2), ('978-0-06-112008-4', 3),
+('978-0-553-29335-7', 6), ('978-0-679-72020-1', 2), ('978-0-06-112008-4', 3),
 ('978-0-345-34314-2', 4), ('978-0-09-954793-8', 5), ('978-0-06-231609-7', 5),
 ('978-950-724-528-3', 6), ('978-950-724-100-1', 6), ('978-0-374-52856-5', 7),
 ('978-0-14-028329-7', 7), ('978-0-15-602943-3', 8), ('978-0-201-89683-1', 9),
@@ -130,7 +130,7 @@ INSERT INTO SOCIO (dni, nombre, apellido, email, fecha_alta, estado) VALUES
 
 INSERT INTO SANCION (id_socio, tipo, fecha_inicio, fecha_fin, motivo) VALUES
 (5, 'MORA', '2025-11-01', '2025-11-22', 'Devolución con 15 días de mora'),
-(10, 'MORA', '2025-12-10', '2026-01-05', 'Devolución con 20 días de mora'),
+(10, 'MORA', '2026-05-25', '2026-06-08', 'Devolución fuera de termino'),
 (3, 'MORA', '2024-08-01', '2024-08-15', 'Mora de 7 días — sanción cumplida'),
 (7, 'DAÑO', '2024-06-10', '2024-07-10', 'Ejemplar devuelto con páginas rotas'),
 (12, 'MORA', '2023-11-05', '2023-11-19', 'Mora de 10 días — sanción cumplida');
