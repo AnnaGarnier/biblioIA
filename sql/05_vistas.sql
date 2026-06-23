@@ -175,25 +175,19 @@ WHERE p.id_socio = s.id_socio
 AND e.isbn = l.isbn
 );
 
-CREATE OR REPLACE VIEW v_lista_socios AS
-SELECT * FROM SOCIO AS lista_socios;
-
-
 CREATE OR REPLACE VIEW v_reporte_salud_biblioteca AS
 SELECT 
--- 1. Total inventario
-(SELECT IFNULL(SUM(stock_total), 0) FROM LIBRO) AS total_inventario,
-    
--- 2. Ejemplares en circulación
-(SELECT COUNT(*) FROM PRESTAMO WHERE estado IN ('ACTIVO', 'VENCIDO')) AS ejemplares_circulacion,
-    
--- 3. Tasa de ocupación
-ROUND((SELECT COUNT(*) FROM PRESTAMO WHERE estado IN ('ACTIVO', 'VENCIDO')) * 100.0 / 
-       NULLIF((SELECT SUM(stock_total) FROM LIBRO), 0), 2) AS tasa_ocupacion,
-       
--- 4. Total socios biblioteca
- (SELECT COUNT(*) FROM SOCIO) AS total_socios;
-    
--- 5. Porcentaje de socios sancionados
-ROUND(IFNULL((SELECT COUNT(DISTINCT id_socio) FROM SANCION WHERE CURDATE() BETWEEN fecha_inicio AND fecha_fin) * 100.0 / 
-               NULLIF((SELECT COUNT(*) FROM SOCIO WHERE estado != 'BAJA'), 0), 0), 2) AS porcentaje_socios_sancionados,
+    (SELECT IFNULL(SUM(stock_total), 0) FROM LIBRO) AS total_inventario,
+    (SELECT COUNT(*) FROM PRESTAMO WHERE estado IN ('ACTIVO', 'VENCIDO')) AS ejemplares_circulacion,
+    ROUND(
+        (SELECT COUNT(*) FROM PRESTAMO WHERE estado IN ('ACTIVO', 'VENCIDO')) * 100.0 / 
+        NULLIF((SELECT SUM(stock_total) FROM LIBRO), 0), 2
+    ) AS tasa_ocupacion,
+    (SELECT COUNT(*) FROM SOCIO) AS total_socios,
+    ROUND(
+        IFNULL(
+            (SELECT COUNT(DISTINCT id_socio) FROM SANCION 
+             WHERE CURDATE() BETWEEN fecha_inicio AND fecha_fin) * 100.0 / 
+            NULLIF((SELECT COUNT(*) FROM SOCIO WHERE estado != 'BAJA'), 0), 0
+        ), 2
+    ) AS porcentaje_socios_sancionados;
